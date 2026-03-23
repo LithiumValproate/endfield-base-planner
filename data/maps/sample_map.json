@@ -1,0 +1,28 @@
+{
+  "facilityCatalog": "../facilities.json",
+  "width": 16,
+  "height": 12,
+  "nextInstanceId": 21,
+  "facilities": [
+    { "instanceId": 1, "definitionId": "generator", "position": { "x": 0, "y": 0 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 2, "definitionId": "power_pole", "position": { "x": 4, "y": 6 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 3, "definitionId": "power_pole", "position": { "x": 10, "y": 6 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 4, "definitionId": "storage_in", "position": { "x": 2, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 5, "definitionId": "assembler", "position": { "x": 5, "y": 6 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [{ "itemId": "ore", "count": 12 }, { "itemId": "", "count": 0 }] },
+    { "instanceId": 6, "definitionId": "storage_out", "position": { "x": 12, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 7, "definitionId": "conveyor", "position": { "x": 3, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 8, "definitionId": "conveyor", "position": { "x": 4, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 9, "definitionId": "conveyor", "position": { "x": 7, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 10, "definitionId": "conveyor", "position": { "x": 8, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 11, "definitionId": "conveyor", "position": { "x": 9, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 12, "definitionId": "conveyor", "position": { "x": 10, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 13, "definitionId": "conveyor", "position": { "x": 11, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 14, "definitionId": "bridge", "position": { "x": 8, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 15, "definitionId": "thermal_machine", "position": { "x": 1, "y": 9 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [{ "itemId": "coal", "count": 20 }] },
+    { "instanceId": 16, "definitionId": "sorter", "position": { "x": 7, "y": 4 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [{ "itemId": "alloy", "count": 10 }] },
+    { "instanceId": 17, "definitionId": "chest", "position": { "x": 13, "y": 6 }, "rotation": "deg0", "storageMode": "wireless", "passedItemCount": 0, "inventorySlots": [{ "itemId": "parts", "count": 18 }] },
+    { "instanceId": 18, "definitionId": "hub", "position": { "x": 6, "y": 2 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 19, "definitionId": "conveyor", "position": { "x": 15, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] },
+    { "instanceId": 20, "definitionId": "storage_port", "position": { "x": 15, "y": 7 }, "rotation": "deg0", "storageMode": "conveyor", "passedItemCount": 0, "inventorySlots": [] }
+  ]
+}

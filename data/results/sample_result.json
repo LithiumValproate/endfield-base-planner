@@ -1,0 +1,438 @@
+{
+  "facilityResults": [
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "generator",
+      "instanceId": 1,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "power_pole",
+      "instanceId": 2,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "power_pole",
+      "instanceId": 3,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "storage_in",
+      "instanceId": 4,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    },
+    {
+      "bottleneckInstanceId": 5,
+      "bottleneckReason": "output_path",
+      "consumptionPerSecond": 2.6666666666666665,
+      "definitionId": "assembler",
+      "instanceId": 5,
+      "pathLengthFromInput": 3,
+      "pathLengthToOutput": 6,
+      "powered": true,
+      "productionPerSecond": 2.6666666666666665,
+      "throughputPerSecond": 2.6666666666666665,
+      "utilization": 0.4444444444444444
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "storage_out",
+      "instanceId": 6,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "path_carrier",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "conveyor",
+      "instanceId": 7,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 3.0,
+      "throughputPerSecond": 3.0,
+      "utilization": 0.375
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "path_carrier",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "conveyor",
+      "instanceId": 8,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 3.0,
+      "throughputPerSecond": 3.0,
+      "utilization": 0.375
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "path_carrier",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "conveyor",
+      "instanceId": 9,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 2.6666666666666665,
+      "throughputPerSecond": 2.6666666666666665,
+      "utilization": 0.3333333333333333
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "path_carrier",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "conveyor",
+      "instanceId": 10,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "path_carrier",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "conveyor",
+      "instanceId": 11,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 2.6666666666666665,
+      "throughputPerSecond": 2.6666666666666665,
+      "utilization": 0.3333333333333333
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "path_carrier",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "conveyor",
+      "instanceId": 12,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 2.6666666666666665,
+      "throughputPerSecond": 2.6666666666666665,
+      "utilization": 0.3333333333333333
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "path_carrier",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "conveyor",
+      "instanceId": 13,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 2.6666666666666665,
+      "throughputPerSecond": 2.6666666666666665,
+      "utilization": 0.3333333333333333
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "path_carrier",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "bridge",
+      "instanceId": 14,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 2.6666666666666665,
+      "throughputPerSecond": 2.6666666666666665,
+      "utilization": 0.3333333333333333
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "missing_input_path",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "thermal_machine",
+      "instanceId": 15,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "sorter",
+      "instanceId": 16,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": false,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "wireless_storage",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "chest",
+      "instanceId": 17,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 6.0,
+      "throughputPerSecond": 6.0,
+      "utilization": 1.0
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "warehouse_link",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "hub",
+      "instanceId": 18,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "path_carrier",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "conveyor",
+      "instanceId": 19,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    },
+    {
+      "bottleneckInstanceId": 0,
+      "bottleneckReason": "warehouse_link",
+      "consumptionPerSecond": 0.0,
+      "definitionId": "storage_port",
+      "instanceId": 20,
+      "pathLengthFromInput": -1,
+      "pathLengthToOutput": -1,
+      "powered": true,
+      "productionPerSecond": 0.0,
+      "throughputPerSecond": 0.0,
+      "utilization": 0.0
+    }
+  ],
+  "layoutScore": {
+    "powerEfficiency": 0.8333333333333334,
+    "spaceEfficiency": 0.875,
+    "throughputScore": 8.666666666666666,
+    "totalScore": 10.375
+  },
+  "networkResults": [
+    {
+      "bottleneckThroughput": 6.0,
+      "fromInstanceId": 5,
+      "pathLength": 6,
+      "pathRole": "output",
+      "toInstanceId": 6
+    },
+    {
+      "bottleneckThroughput": 6.0,
+      "fromInstanceId": 4,
+      "pathLength": 3,
+      "pathRole": "input",
+      "toInstanceId": 5
+    }
+  ],
+  "powerStates": [
+    {
+      "covered": true,
+      "instanceId": 1,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 2,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 3,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 4,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 5,
+      "powered": true,
+      "requestedPower": 4.0,
+      "servedPower": 4.0
+    },
+    {
+      "covered": true,
+      "instanceId": 6,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 7,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 8,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 9,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 10,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 11,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 12,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 13,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 14,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 15,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": false,
+      "instanceId": 16,
+      "powered": false,
+      "requestedPower": 1.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 17,
+      "powered": true,
+      "requestedPower": 1.0,
+      "servedPower": 1.0
+    },
+    {
+      "covered": true,
+      "instanceId": 18,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 19,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    },
+    {
+      "covered": true,
+      "instanceId": 20,
+      "powered": true,
+      "requestedPower": 0.0,
+      "servedPower": 0.0
+    }
+  ],
+  "summary": {
+    "totalConsumption": 2.6666666666666665,
+    "totalGeneration": 37.0,
+    "totalInput": 22.0,
+    "totalOutput": 28.0,
+    "totalProduction": 8.666666666666666,
+    "totalRequestedPower": 6.0,
+    "totalServedPower": 5.0,
+    "totalThroughput": 8.666666666666666
+  }
+}
