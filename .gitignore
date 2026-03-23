@@ -1,0 +1,28 @@
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# CMake and build outputs
+build/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+CTestTestfile.cmake
+Testing/
+compile_commands.json
+cmake_install.cmake
+Makefile
+
+# Binaries and libraries
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+
