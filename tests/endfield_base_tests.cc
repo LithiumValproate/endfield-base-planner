@@ -130,11 +130,11 @@ FacilityCatalog createTestCatalog() {
     sorter.powerUsage = 1.0;
     sorter.maxOutputs = 3;
     sorter.ioPorts = {
-            {{-1, 0}, PortDirection::Input},
-            {{0, 1}, PortDirection::Output},
-            {{1, 0}, PortDirection::Output},
-            {{0, -1}, PortDirection::Output},
-        };
+        {{-1, 0}, PortDirection::Input},
+        {{0, 1}, PortDirection::Output},
+        {{1, 0}, PortDirection::Output},
+        {{0, -1}, PortDirection::Output},
+    };
     catalog.addDefinition(sorter);
 
     FacilityDefinition chest = makeDefinition("chest", "Chest", FacilityCategory::Chest, {1, 1});

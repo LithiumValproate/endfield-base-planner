@@ -41,7 +41,7 @@ PathResult PathFinder::findPath(const SimulationState& state, const PathRequest&
     };
 
     std::optional<LayeredGridPoint> foundPoint;
-    while (!frontier.empty() && !foundPoint.has_value()) {
+    while (!frontier.empty() && !foundPoint) {
         const LayeredGridPoint current = frontier.front();
         frontier.pop_front();
 
@@ -61,7 +61,7 @@ PathResult PathFinder::findPath(const SimulationState& state, const PathRequest&
         }
     }
 
-    if (!foundPoint.has_value()) {
+    if (!foundPoint) {
         return {};
     }
 
@@ -97,7 +97,7 @@ PathResult PathFinder::findPath(const SimulationState& state, const PathRequest&
     }
 
     for (const PathStep& step : result.steps) {
-        if (!step.ownerInstanceId.has_value()) {
+        if (!step.ownerInstanceId) {
             continue;
         }
         if (std::ranges::find(result.traversedInstanceIds, *step.ownerInstanceId) == result.traversedInstanceIds.

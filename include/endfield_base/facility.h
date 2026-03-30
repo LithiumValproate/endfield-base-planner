@@ -81,16 +81,14 @@ struct GridPoint {
     int x = 0;
     int y = 0;
 
-    auto operator==(const GridPoint& other) const
-        -> bool = default;
+    auto operator==(const GridPoint& other) const -> bool = default;
 };
 
 struct GridSize {
     int width = 1;
     int height = 1;
 
-    auto operator==(const GridSize& other) const
-        -> bool = default;
+    auto operator==(const GridSize& other) const -> bool = default;
 };
 
 struct IoPortDefinition {
@@ -200,46 +198,152 @@ private:
     -> std::string;
 [[nodiscard]] auto powerFacilityTypeFromString(std::string_view value)
     -> PowerFacilityType;
-[[nodiscard]] auto rotateFootprint(GridSize footprint, Rotation rotation)
-    -> GridSize;
-[[nodiscard]] auto rotateDirection(GridPoint direction, Rotation rotation)
-    -> GridPoint;
-[[nodiscard]] auto isLogisticsFacility(FacilityCategory category)
-    -> bool;
-[[nodiscard]] auto ignoresPowerCoverage(FacilityCategory category)
-    -> bool;
-[[nodiscard]] auto isPowerTransmitter(FacilityCategory category)
-    -> bool;
-[[nodiscard]] auto supportsBridgeLayer(FacilityCategory category)
-    -> bool;
-[[nodiscard]] auto isStorageFacility(FacilityCategory category)
-    -> bool;
-[[nodiscard]] auto isMachineFacility(FacilityCategory category)
-    -> bool;
-[[nodiscard]] auto isProductionFacility(const FacilityDefinition& definition)
-    -> bool;
-[[nodiscard]] auto isThermalMachine(const FacilityDefinition& definition)
-    -> bool;
-[[nodiscard]] auto isPowerFacility(const FacilityDefinition& definition)
-    -> bool;
-[[nodiscard]] auto isHubFacility(const FacilityDefinition& definition)
-    -> bool;
-[[nodiscard]] auto isChestFacility(const FacilityDefinition& definition)
-    -> bool;
-[[nodiscard]] auto requiresExternalPower(const FacilityDefinition& definition)
-    -> bool;
-[[nodiscard]] auto usesWirelessStorage(const FacilityDefinition& definition, const FacilityInstance& instance)
-    -> bool;
-[[nodiscard]] auto hasInventoryCapacity(const FacilityDefinition& definition)
-    -> bool;
+
+[[nodiscard]] constexpr auto rotateFootprint(GridSize footprint, Rotation rotation) noexcept
+    -> GridSize {
+    if (rotation == Rotation::Deg_90 || rotation == Rotation::Deg_270) {
+        return {footprint.height, footprint.width};
+    }
+
+    return footprint;
+}
+
+[[nodiscard]] constexpr auto rotateDirection(GridPoint direction, Rotation rotation) noexcept
+    -> GridPoint {
+    switch (rotation) {
+    case Rotation::Deg_0: return direction;
+    case Rotation::Deg_90: return {-direction.y, direction.x};
+    case Rotation::Deg_180: return {-direction.x, -direction.y};
+    case Rotation::Deg_270: return {direction.y, -direction.x};
+    }
+
+    return direction;
+}
+
+[[nodiscard]] constexpr auto isLogisticsFacility(FacilityCategory category) noexcept
+    -> bool {
+    return category == FacilityCategory::Conveyor
+           || category == FacilityCategory::Splitter
+           || category == FacilityCategory::Merger
+           || category == FacilityCategory::Bridge;
+}
+
+[[nodiscard]] constexpr auto ignoresPowerCoverage(FacilityCategory category) noexcept
+    -> bool {
+    return isLogisticsFacility(category)
+           || category == FacilityCategory::Generator
+           || category == FacilityCategory::Power_pole
+           || category == FacilityCategory::Power_relay
+           || category == FacilityCategory::Hub
+           || category == FacilityCategory::Storage_in
+           || category == FacilityCategory::Storage_out;
+}
+
+[[nodiscard]] constexpr auto isPowerTransmitter(FacilityCategory category) noexcept
+    -> bool {
+    return category == FacilityCategory::Power_pole || category == FacilityCategory::Power_relay;
+}
+
+[[nodiscard]] constexpr auto supportsBridgeLayer(FacilityCategory category) noexcept
+    -> bool {
+    return category == FacilityCategory::Bridge;
+}
+
+[[nodiscard]] constexpr auto isStorageFacility(FacilityCategory category) noexcept
+    -> bool {
+    return category == FacilityCategory::Storage_in
+           || category == FacilityCategory::Storage_out
+           || category == FacilityCategory::Storage_port;
+}
+
+[[nodiscard]] constexpr auto isMachineFacility(FacilityCategory category) noexcept
+    -> bool {
+    return category == FacilityCategory::Machine
+           || category == FacilityCategory::Chest
+           || category == FacilityCategory::Hub;
+}
+
+[[nodiscard]] constexpr auto isProductionFacility(const FacilityDefinition& definition) noexcept
+    -> bool {
+    return definition.role == FacilityRole::Production_facility || definition.category == FacilityCategory::Machine;
+}
+
+[[nodiscard]] constexpr auto isThermalMachine(const FacilityDefinition& definition) noexcept
+    -> bool {
+    return definition.role == FacilityRole::Thermal_machine || definition.category == FacilityCategory::Generator;
+}
+
+[[nodiscard]] constexpr auto isPowerFacility(const FacilityDefinition& definition) noexcept
+    -> bool {
+    return definition.role == FacilityRole::Power_facility || isPowerTransmitter(definition.category);
+}
+
+[[nodiscard]] constexpr auto isHubFacility(const FacilityDefinition& definition) noexcept
+    -> bool {
+    return definition.role == FacilityRole::Hub || definition.category == FacilityCategory::Hub;
+}
+
+[[nodiscard]] constexpr auto isChestFacility(const FacilityDefinition& definition) noexcept
+    -> bool {
+    return definition.role == FacilityRole::Chest || definition.category == FacilityCategory::Chest;
+}
+
+[[nodiscard]] constexpr auto requiresExternalPower(const FacilityDefinition& definition) noexcept
+    -> bool {
+    return !ignoresPowerCoverage(definition.category) && definition.requiresPower;
+}
+
+[[nodiscard]] constexpr auto usesWirelessStorage(
+    const FacilityDefinition& definition,
+    const FacilityInstance& instance
+) noexcept
+    -> bool {
+    return isChestFacility(definition)
+           && definition.supportsWirelessStorage
+           && instance.storageMode == StorageMode::Wireless;
+}
+
+[[nodiscard]] constexpr auto hasInventoryCapacity(const FacilityDefinition& definition) noexcept
+    -> bool {
+    return definition.inventorySlotCount > 0;
+}
+
 [[nodiscard]] auto hasAnyStoredItems(const FacilityInstance& instance)
     -> bool;
-[[nodiscard]] auto defaultFacilityRole(FacilityCategory category)
-    -> FacilityRole;
-[[nodiscard]] auto defaultRequiresPower(const FacilityDefinition& definition)
-    -> bool;
-[[nodiscard]] auto defaultPowerFacilityType(FacilityCategory category)
-    -> PowerFacilityType;
+
+[[nodiscard]] constexpr auto defaultFacilityRole(FacilityCategory category) noexcept
+    -> FacilityRole {
+    switch (category) {
+    case FacilityCategory::Machine: return FacilityRole::Production_facility;
+    case FacilityCategory::Power_pole:
+    case FacilityCategory::Power_relay: return FacilityRole::Power_facility;
+    case FacilityCategory::Generator: return FacilityRole::Thermal_machine;
+    case FacilityCategory::Chest: return FacilityRole::Chest;
+    case FacilityCategory::Hub: return FacilityRole::Hub;
+    case FacilityCategory::Storage_port:
+    case FacilityCategory::Storage_in:
+    case FacilityCategory::Storage_out: return FacilityRole::Storage_port;
+    case FacilityCategory::Servo: return FacilityRole::Servo;
+    default: return FacilityRole::Generic;
+    }
+}
+
+[[nodiscard]] constexpr auto defaultRequiresPower(const FacilityDefinition& definition) noexcept
+    -> bool {
+    return definition.category == FacilityCategory::Chest
+           || definition.role == FacilityRole::Production_facility
+           || definition.role == FacilityRole::Chest;
+}
+
+[[nodiscard]] constexpr auto defaultPowerFacilityType(FacilityCategory category) noexcept
+    -> PowerFacilityType {
+    switch (category) {
+    case FacilityCategory::Power_pole: return PowerFacilityType::Pole;
+    case FacilityCategory::Power_relay: return PowerFacilityType::Repeater;
+    default: return PowerFacilityType::None;
+    }
+}
+
 [[nodiscard]] auto getOrderedInputDirections(const FacilityDefinition& definition, Rotation rotation)
     -> std::vector<GridPoint>;
 [[nodiscard]] auto getOrderedOutputDirections(const FacilityDefinition& definition, Rotation rotation)

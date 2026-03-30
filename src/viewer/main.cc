@@ -33,14 +33,16 @@ Color facilityColor(FacilityCategory category) {
     return LIGHTGRAY;
 }
 
-GridPoint screenToGrid(Vector2 position) {
+[[nodiscard]] constexpr auto screenToGrid(Vector2 position) noexcept
+    -> GridPoint {
     return {
         static_cast<int>(position.x) / Cell_Size,
         static_cast<int>(position.y) / Cell_Size,
     };
 }
 
-std::optional<int> facilityAtPoint(const SimulationState& state, const GridPoint& point) {
+[[nodiscard]] auto facilityAtPoint(const SimulationState& state, const GridPoint& point)
+    -> std::optional<int> {
     const std::vector<int> ids = state.grid.getFacilityIdsAt(point);
     if (ids.empty()) {
         return std::nullopt;
@@ -48,7 +50,8 @@ std::optional<int> facilityAtPoint(const SimulationState& state, const GridPoint
     return ids.back();
 }
 
-Rotation nextRotation(Rotation rotation) {
+[[nodiscard]] constexpr auto nextRotation(Rotation rotation) noexcept
+    -> Rotation {
     switch (rotation) {
     case Rotation::Deg_0: return Rotation::Deg_90;
     case Rotation::Deg_90: return Rotation::Deg_180;
@@ -163,8 +166,7 @@ int main(int argc, char** argv) {
             }
 
             if (mouseInsideGrid && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-                const std::optional<int> instanceId = facilityAtPoint(state, hoveredCell);
-                if (instanceId.has_value()) {
+                if (const std::optional<int> instanceId = facilityAtPoint(state, hoveredCell); instanceId) {
                     state.grid.removeFacility(*instanceId, state.catalog);
                     if (selectedInstanceId == *instanceId) {
                         selectedInstanceId = 0;

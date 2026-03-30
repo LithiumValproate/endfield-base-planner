@@ -55,7 +55,7 @@ public:
         std::optional<int> forcedInstanceId = std::nullopt,
         std::string* reason = nullptr
     ) -> int;
-    bool removeFacility(int instanceId, const FacilityCatalog& catalog);
+    [[nodiscard]] bool removeFacility(int instanceId, const FacilityCatalog& catalog);
     void reset(int width, int height);
 
 private:

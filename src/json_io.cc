@@ -69,12 +69,12 @@ FacilityCatalog loadFacilityDefinitions(const std::filesystem::path& path) {
         if (definitionJson.contains("ioPorts")) {
             for (const nlohmann::json& ioPortJson : definitionJson.at("ioPorts")) {
                 definition.ioPorts.push_back({
-                        {
-                            ioPortJson.at("direction").at("x").get<int>(),
-                            ioPortJson.at("direction").at("y").get<int>(),
-                        },
-                        portDirectionFromString(ioPortJson.at("portDirection").get<std::string>()),
-                    });
+                    {
+                        ioPortJson.at("direction").at("x").get<int>(),
+                        ioPortJson.at("direction").at("y").get<int>(),
+                    },
+                    portDirectionFromString(ioPortJson.at("portDirection").get<std::string>()),
+                });
             }
         }
         catalog.addDefinition(std::move(definition));
@@ -105,9 +105,9 @@ SimulationState loadMap(const std::filesystem::path& path) {
         facilityInstance.instanceId = instanceJson.value("instanceId", 0);
         facilityInstance.definitionId = definitionId;
         facilityInstance.position = {
-                instanceJson.at("position").at("x").get<int>(),
-                instanceJson.at("position").at("y").get<int>(),
-            };
+            instanceJson.at("position").at("x").get<int>(),
+            instanceJson.at("position").at("y").get<int>(),
+        };
         facilityInstance.rotation = rotationFromString(instanceJson.at("rotation").get<std::string>());
         facilityInstance.storageMode = instanceJson.contains("storageMode")
                                            ? storageModeFromString(instanceJson.at("storageMode").get<std::string>())
@@ -119,9 +119,9 @@ SimulationState loadMap(const std::filesystem::path& path) {
         if (instanceJson.contains("inventorySlots")) {
             for (const nlohmann::json& inventoryJson : instanceJson.at("inventorySlots")) {
                 facilityInstance.inventorySlots.push_back({
-                        inventoryJson.value("itemId", std::string{}),
-                        inventoryJson.value("count", 0),
-                    });
+                    inventoryJson.value("itemId", std::string{}),
+                    inventoryJson.value("count", 0),
+                });
             }
         }
 
@@ -164,19 +164,19 @@ void saveMap(const std::filesystem::path& path, const SimulationState& state) {
 
     for (const FacilityInstance& instance : state.grid.getFacilities()) {
         nlohmann::json instanceJson = {
-                {"instanceId", instance.instanceId},
-                {"definitionId", instance.definitionId},
-                {"position", {{"x", instance.position.x}, {"y", instance.position.y}}},
-                {"rotation", toString(instance.rotation)},
-                {"storageMode", toString(instance.storageMode)},
-                {"passedItemCount", instance.passedItemCount},
-            };
+            {"instanceId", instance.instanceId},
+            {"definitionId", instance.definitionId},
+            {"position", {{"x", instance.position.x}, {"y", instance.position.y}}},
+            {"rotation", toString(instance.rotation)},
+            {"storageMode", toString(instance.storageMode)},
+            {"passedItemCount", instance.passedItemCount},
+        };
         instanceJson["inventorySlots"] = nlohmann::json::array();
         for (const InventorySlot& inventorySlot : instance.inventorySlots) {
             instanceJson["inventorySlots"].push_back({
-                    {"itemId", inventorySlot.itemId},
-                    {"count", inventorySlot.count},
-                });
+                {"itemId", inventorySlot.itemId},
+                {"count", inventorySlot.count},
+            });
         }
         if (instance.passedItemLimit.has_value()) {
             instanceJson["passedItemLimit"] = *instance.passedItemLimit;

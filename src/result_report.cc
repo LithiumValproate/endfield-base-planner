@@ -11,38 +11,38 @@ namespace endfield_base {
 namespace {
     nlohmann::json toJson(const FacilityPowerState& state) {
         return {
-                {"instanceId", state.instanceId},
-                {"covered", state.covered},
-                {"powered", state.powered},
-                {"requestedPower", state.requestedPower},
-                {"servedPower", state.servedPower},
-            };
+            {"instanceId", state.instanceId},
+            {"covered", state.covered},
+            {"powered", state.powered},
+            {"requestedPower", state.requestedPower},
+            {"servedPower", state.servedPower},
+        };
     }
 
     nlohmann::json toJson(const FacilityThroughputResult& result) {
         return {
-                {"instanceId", result.instanceId},
-                {"definitionId", result.definitionId},
-                {"powered", result.powered},
-                {"throughputPerSecond", result.throughputPerSecond},
-                {"productionPerSecond", result.productionPerSecond},
-                {"consumptionPerSecond", result.consumptionPerSecond},
-                {"utilization", result.utilization},
-                {"pathLengthFromInput", result.pathLengthFromInput},
-                {"pathLengthToOutput", result.pathLengthToOutput},
-                {"bottleneckInstanceId", result.bottleneckInstanceId},
-                {"bottleneckReason", result.bottleneckReason},
-            };
+            {"instanceId", result.instanceId},
+            {"definitionId", result.definitionId},
+            {"powered", result.powered},
+            {"throughputPerSecond", result.throughputPerSecond},
+            {"productionPerSecond", result.productionPerSecond},
+            {"consumptionPerSecond", result.consumptionPerSecond},
+            {"utilization", result.utilization},
+            {"pathLengthFromInput", result.pathLengthFromInput},
+            {"pathLengthToOutput", result.pathLengthToOutput},
+            {"bottleneckInstanceId", result.bottleneckInstanceId},
+            {"bottleneckReason", result.bottleneckReason},
+        };
     }
 
     nlohmann::json toJson(const NetworkPathResult& result) {
         return {
-                {"fromInstanceId", result.fromInstanceId},
-                {"toInstanceId", result.toInstanceId},
-                {"pathLength", result.pathLength},
-                {"bottleneckThroughput", result.bottleneckThroughput},
-                {"pathRole", result.pathRole},
-            };
+            {"fromInstanceId", result.fromInstanceId},
+            {"toInstanceId", result.toInstanceId},
+            {"pathLength", result.pathLength},
+            {"bottleneckThroughput", result.bottleneckThroughput},
+            {"pathRole", result.pathRole},
+        };
     }
 } // namespace
 
@@ -67,9 +67,8 @@ ResultReport buildResultReport(const SimulationState& state) {
     for (int y = 0; y < state.grid.getHeight(); ++y) {
         for (int x = 0; x < state.grid.getWidth(); ++x) {
             if (const CellOccupancy* occupancy = state.grid.getCell(x, y); occupancy != nullptr
-                                                                           && (occupancy->baseInstanceId.has_value() ||
-                                                                               occupancy->bridgeInstanceId.
-                                                                               has_value())) {
+                                                                           && (occupancy->baseInstanceId ||
+                                                                               occupancy->bridgeInstanceId)) {
                 ++usedCells;
             }
         }
@@ -90,15 +89,15 @@ void exportResultReport(const std::filesystem::path& path, const ResultReport& r
 
     nlohmann::json json;
     json["summary"] = {
-            {"totalThroughput", report.summary.totalThroughput},
-            {"totalProduction", report.summary.totalProduction},
-            {"totalConsumption", report.summary.totalConsumption},
-            {"totalInput", report.summary.totalInput},
-            {"totalOutput", report.summary.totalOutput},
-            {"totalGeneration", report.summary.totalGeneration},
-            {"totalRequestedPower", report.summary.totalRequestedPower},
-            {"totalServedPower", report.summary.totalServedPower},
-        };
+        {"totalThroughput", report.summary.totalThroughput},
+        {"totalProduction", report.summary.totalProduction},
+        {"totalConsumption", report.summary.totalConsumption},
+        {"totalInput", report.summary.totalInput},
+        {"totalOutput", report.summary.totalOutput},
+        {"totalGeneration", report.summary.totalGeneration},
+        {"totalRequestedPower", report.summary.totalRequestedPower},
+        {"totalServedPower", report.summary.totalServedPower},
+    };
 
     json["facilityResults"] = nlohmann::json::array();
     for (const FacilityThroughputResult& facilityResult : report.facilityResults) {
@@ -116,11 +115,11 @@ void exportResultReport(const std::filesystem::path& path, const ResultReport& r
     }
 
     json["layoutScore"] = {
-            {"throughputScore", report.layoutScore.throughputScore},
-            {"spaceEfficiency", report.layoutScore.spaceEfficiency},
-            {"powerEfficiency", report.layoutScore.powerEfficiency},
-            {"totalScore", report.layoutScore.totalScore},
-        };
+        {"throughputScore", report.layoutScore.throughputScore},
+        {"spaceEfficiency", report.layoutScore.spaceEfficiency},
+        {"powerEfficiency", report.layoutScore.powerEfficiency},
+        {"totalScore", report.layoutScore.totalScore},
+    };
 
     std::ofstream output(path);
     if (!output.is_open()) {
