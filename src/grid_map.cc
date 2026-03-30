@@ -213,13 +213,9 @@ bool GridMap::removeFacility(int instanceId, const FacilityCatalog& catalog) {
     for (const auto occupiedCells = getOccupiedCells(*definition, *it); const GridPoint& cell : occupiedCells) {
         CellOccupancy& occupancy = cells_.at(indexForCell(cell.x, cell.y));
         if (!definition->occupiesBaseGrid) {
-            occupancy.attachedInstanceIds.erase(
-                std::remove(
-                    occupancy.attachedInstanceIds.begin(),
-                    occupancy.attachedInstanceIds.end(),
-                    instanceId
-                ),
-                occupancy.attachedInstanceIds.end()
+            std::erase(
+                occupancy.attachedInstanceIds,
+                instanceId
             );
         } else if (supportsBridgeLayer(definition->category)) {
             occupancy.bridgeInstanceId.reset();

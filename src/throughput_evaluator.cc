@@ -79,21 +79,13 @@ ThroughputReport ThroughputEvaluator::evaluateThroughput(const SimulationState& 
         return powerState.powered || !requiresExternalPower(*definition);
     };
 
-    endpoints.inputInstanceIds.erase(
-        std::remove_if(
-            endpoints.inputInstanceIds.begin(),
-            endpoints.inputInstanceIds.end(),
-            [&isActiveInstance] (int instanceId) { return !isActiveInstance(instanceId); }
-        ),
-        endpoints.inputInstanceIds.end()
+    std::erase_if(
+        endpoints.inputInstanceIds,
+        [&isActiveInstance] (int instanceId) { return !isActiveInstance(instanceId); }
     );
-    endpoints.outputInstanceIds.erase(
-        std::remove_if(
-            endpoints.outputInstanceIds.begin(),
-            endpoints.outputInstanceIds.end(),
-            [&isActiveInstance] (int instanceId) { return !isActiveInstance(instanceId); }
-        ),
-        endpoints.outputInstanceIds.end()
+    std::erase_if(
+        endpoints.outputInstanceIds,
+        [&isActiveInstance] (int instanceId) { return !isActiveInstance(instanceId); }
     );
 
     for (const FacilityInstance& instance : state.grid.getFacilities()) {
