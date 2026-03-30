@@ -1,17 +1,17 @@
 #include "endfield_base/logistics_graph.h"
 
 #include <algorithm>
+#include <array>
 #include <stdexcept>
 
 namespace endfield_base {
 namespace {
-    constexpr GridPoint Directions[] =
-        {
-            {1, 0},
-            {-1, 0},
-            {0, 1},
-            {0, -1},
-        };
+    constexpr std::array<GridPoint, 4> Directions{{
+        {1, 0},
+        {-1, 0},
+        {0, 1},
+        {0, -1},
+    }};
 
     bool isHorizontalRotation(Rotation rotation) {
         return rotation == Rotation::Deg_0 || rotation == Rotation::Deg_180;

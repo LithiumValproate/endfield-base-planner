@@ -2,6 +2,7 @@
 
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "endfield_base/facility.h"
@@ -48,7 +49,7 @@ public:
     ) const -> bool;
     [[nodiscard]] auto placeFacility(
         const FacilityDefinition& definition,
-        const std::string& definitionId,
+        std::string_view definitionId,
         const GridPoint& origin,
         Rotation rotation,
         std::optional<int> forcedInstanceId = std::nullopt,

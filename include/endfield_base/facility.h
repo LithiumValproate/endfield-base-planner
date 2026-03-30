@@ -3,6 +3,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -145,7 +146,7 @@ public:
 class FacilityCatalog {
 public:
     void addDefinition(FacilityDefinition definition);
-    [[nodiscard]] auto findDefinition(const std::string& id) const
+    [[nodiscard]] auto findDefinition(std::string_view id) const
         -> const FacilityDefinition*;
     [[nodiscard]] auto getDefinitions() const
         -> const std::vector<FacilityDefinition>&;
@@ -159,27 +160,27 @@ private:
 
 [[nodiscard]] auto toString(FacilityCategory category)
     -> std::string;
-[[nodiscard]] auto facilityCategoryFromString(const std::string& value)
+[[nodiscard]] auto facilityCategoryFromString(std::string_view value)
     -> FacilityCategory;
 [[nodiscard]] auto toString(FacilityRole role)
     -> std::string;
-[[nodiscard]] auto facilityRoleFromString(const std::string& value)
+[[nodiscard]] auto facilityRoleFromString(std::string_view value)
     -> FacilityRole;
 [[nodiscard]] auto toString(Rotation rotation)
     -> std::string;
-[[nodiscard]] auto rotationFromString(const std::string& value)
+[[nodiscard]] auto rotationFromString(std::string_view value)
     -> Rotation;
 [[nodiscard]] auto toString(PortDirection portDirection)
     -> std::string;
-[[nodiscard]] auto portDirectionFromString(const std::string& value)
+[[nodiscard]] auto portDirectionFromString(std::string_view value)
     -> PortDirection;
 [[nodiscard]] auto toString(StorageMode storageMode)
     -> std::string;
-[[nodiscard]] auto storageModeFromString(const std::string& value)
+[[nodiscard]] auto storageModeFromString(std::string_view value)
     -> StorageMode;
 [[nodiscard]] auto toString(PowerFacilityType powerFacilityType)
     -> std::string;
-[[nodiscard]] auto powerFacilityTypeFromString(const std::string& value)
+[[nodiscard]] auto powerFacilityTypeFromString(std::string_view value)
     -> PowerFacilityType;
 [[nodiscard]] auto rotateFootprint(GridSize footprint, Rotation rotation)
     -> GridSize;

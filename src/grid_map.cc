@@ -1,6 +1,7 @@
 #include "endfield_base/grid_map.h"
 
 #include <algorithm>
+#include <ranges>
 #include <stdexcept>
 
 namespace endfield_base {
@@ -29,9 +30,8 @@ const std::vector<FacilityInstance>& GridMap::getFacilities() const {
 }
 
 FacilityInstance* GridMap::findFacility(int instanceId) {
-    const auto it = std::find_if(
-        facilities_.begin(),
-        facilities_.end(),
+    const auto it = std::ranges::find_if(
+        facilities_,
         [instanceId] (const FacilityInstance& instance) { return instance.instanceId == instanceId; }
     );
 
@@ -43,9 +43,8 @@ FacilityInstance* GridMap::findFacility(int instanceId) {
 }
 
 const FacilityInstance* GridMap::findFacility(int instanceId) const {
-    const auto it = std::find_if(
-        facilities_.begin(),
-        facilities_.end(),
+    const auto it = std::ranges::find_if(
+        facilities_,
         [instanceId] (const FacilityInstance& instance) { return instance.instanceId == instanceId; }
     );
 
@@ -86,11 +85,16 @@ std::vector<int> GridMap::getFacilityIdsAt(const GridPoint& cell) const {
     }
 
     std::vector<int> ids;
-    if (occupancy->baseInstanceId.has_value()) {
-        ids.push_back(*occupancy->baseInstanceId);
+    ids.reserve(
+        occupancy->attachedInstanceIds.size()
+        + static_cast<std::size_t>(occupancy->baseInstanceId.has_value())
+        + static_cast<std::size_t>(occupancy->bridgeInstanceId.has_value())
+    );
+    if (const auto baseInstanceId = occupancy->baseInstanceId) {
+        ids.push_back(*baseInstanceId);
     }
-    if (occupancy->bridgeInstanceId.has_value()) {
-        ids.push_back(*occupancy->bridgeInstanceId);
+    if (const auto bridgeInstanceId = occupancy->bridgeInstanceId) {
+        ids.push_back(*bridgeInstanceId);
     }
     ids.insert(ids.end(), occupancy->attachedInstanceIds.begin(), occupancy->attachedInstanceIds.end());
     return ids;
@@ -164,7 +168,7 @@ auto GridMap::canPlaceFacility(
 
 auto GridMap::placeFacility(
     const FacilityDefinition& definition,
-    const std::string& definitionId,
+    std::string_view definitionId,
     const GridPoint& origin,
     Rotation rotation,
     std::optional<int> forcedInstanceId,
@@ -176,7 +180,12 @@ auto GridMap::placeFacility(
 
     const int instanceId = forcedInstanceId.value_or(nextInstanceId_);
     nextInstanceId_ = std::max(nextInstanceId_, instanceId + 1);
-    facilities_.push_back({instanceId, definitionId, origin, rotation});
+    facilities_.emplace_back(FacilityInstance{
+        instanceId,
+        std::string(definitionId),
+        origin,
+        rotation,
+    });
     const GridSize footprint = rotateFootprint(definition.footprint, rotation);
 
     for (int offsetY = 0; offsetY < footprint.height; ++offsetY) {
@@ -196,9 +205,8 @@ auto GridMap::placeFacility(
 }
 
 bool GridMap::removeFacility(int instanceId, const FacilityCatalog& catalog) {
-    const auto it = std::find_if(
-        facilities_.begin(),
-        facilities_.end(),
+    const auto it = std::ranges::find_if(
+        facilities_,
         [instanceId] (const FacilityInstance& instance) { return instance.instanceId == instanceId; }
     );
     if (it == facilities_.end()) {

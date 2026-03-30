@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <deque>
 #include <limits>
+#include <ranges>
 #include <stdexcept>
 #include <unordered_map>
 
@@ -11,7 +12,7 @@
 namespace endfield_base {
 namespace {
     struct LayeredPointHash {
-        std::size_t operator()(const LayeredGridPoint& point) const {
+        std::size_t operator()(const LayeredGridPoint& point) const noexcept {
             const std::size_t layer = point.layer == LogisticsLayer::Ground ? 0U : 1U;
             return static_cast<std::size_t>((point.position.x * 73856093) ^ (point.position.y * 19349663) ^ (
                                                 layer * 83492791));
@@ -36,7 +37,7 @@ PathResult PathFinder::findPath(const SimulationState& state, const PathRequest&
     }
 
     const auto isTarget = [&endPoints] (const LayeredGridPoint& candidate) {
-        return std::find(endPoints.begin(), endPoints.end(), candidate) != endPoints.end();
+        return std::ranges::find(endPoints, candidate) != endPoints.end();
     };
 
     std::optional<LayeredGridPoint> foundPoint;
@@ -99,8 +100,7 @@ PathResult PathFinder::findPath(const SimulationState& state, const PathRequest&
         if (!step.ownerInstanceId.has_value()) {
             continue;
         }
-        if (std::find(result.traversedInstanceIds.begin(), result.traversedInstanceIds.end(), *step.ownerInstanceId)
-            == result.traversedInstanceIds.end()) {
+        if (std::ranges::find(result.traversedInstanceIds, *step.ownerInstanceId) == result.traversedInstanceIds.end()) {
             result.traversedInstanceIds.push_back(*step.ownerInstanceId);
         }
     }

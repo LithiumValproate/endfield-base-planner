@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <ranges>
 #include <unordered_map>
 
 #include "endfield_base/storage_system.h"
@@ -10,9 +11,8 @@
 namespace endfield_base {
 namespace {
     FacilityPowerState findPowerState(const PowerReport& powerReport, int instanceId) {
-        const auto it = std::find_if(
-            powerReport.facilityStates.begin(),
-            powerReport.facilityStates.end(),
+        const auto it = std::ranges::find_if(
+            powerReport.facilityStates,
             [instanceId] (const FacilityPowerState& state) { return state.instanceId == instanceId; }
         );
         if (it == powerReport.facilityStates.end()) {
@@ -33,7 +33,7 @@ namespace {
         int startInstanceId,
         const std::vector<int>& targets
     ) -> std::optional<std::pair<int, PathResult>> {
-        std::optional<std::pair<int, PathResult>> best;
+        std::optional<std::pair<int, PathResult>> bestPath;
 
         for (const int targetInstanceId : targets) {
             PathResult path = PathFinder::findPath(state, {startInstanceId, targetInstanceId});
@@ -41,12 +41,12 @@ namespace {
                 continue;
             }
 
-            if (!best.has_value() || path.length < best->second.length) {
-                best = std::make_pair(targetInstanceId, std::move(path));
+            if (!bestPath.has_value() || path.length < bestPath->second.length) {
+                bestPath = std::make_pair(targetInstanceId, std::move(path));
             }
         }
 
-        return best;
+        return bestPath;
     }
 
     auto accumulatePathUsage(

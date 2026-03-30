@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <optional>
+#include <ranges>
 #include <sstream>
 #include <stdexcept>
 
@@ -269,9 +270,8 @@ int main(int argc, char** argv) {
                     DrawText(summary.str().c_str(), sidebarX, cursorY, 18, BLACK);
                     cursorY += 22;
 
-                    const auto resultIt = std::find_if(
-                        report.facilityResults.begin(),
-                        report.facilityResults.end(),
+                    const auto resultIt = std::ranges::find_if(
+                        report.facilityResults,
                         [selectedInstanceId] (const FacilityThroughputResult& result) {
                             return result.instanceId == selectedInstanceId;
                         }

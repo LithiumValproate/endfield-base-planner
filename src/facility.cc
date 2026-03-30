@@ -1,6 +1,8 @@
 #include "endfield_base/facility.h"
 
 #include <algorithm>
+#include <array>
+#include <ranges>
 #include <stdexcept>
 
 namespace endfield_base {
@@ -38,17 +40,15 @@ namespace {
         }
     };
 
-    constexpr GridPoint Splitter_Output_Order[] =
-        {
-            {0, 1},
-            {1, 0},
-            {0, -1},
-        };
+    constexpr std::array<GridPoint, 3> Splitter_Output_Order{{
+        {0, 1},
+        {1, 0},
+        {0, -1},
+    }};
 
-    constexpr GridPoint Splitter_Input_Order[] =
-        {
-            {-1, 0},
-        };
+    constexpr std::array<GridPoint, 1> Splitter_Input_Order{{
+        {-1, 0},
+    }};
 
     std::vector<GridPoint> filterPortsByDirection(
         const FacilityDefinition& definition,
@@ -84,13 +84,12 @@ void FacilityCatalog::addDefinition(FacilityDefinition definition) {
     definitions_.push_back(std::move(definition));
 }
 
-const FacilityDefinition* FacilityCatalog::findDefinition(const std::string& id) const {
-    const auto it = indexById_.find(id);
-    if (it == indexById_.end()) {
+const FacilityDefinition* FacilityCatalog::findDefinition(std::string_view id) const {
+    if (!indexById_.contains(std::string(id))) {
         return nullptr;
     }
 
-    return &definitions_.at(it->second);
+    return &definitions_.at(indexById_.at(std::string(id)));
 }
 
 const std::vector<FacilityDefinition>& FacilityCatalog::getDefinitions() const {
@@ -122,7 +121,7 @@ std::string toString(FacilityCategory category) {
     throw std::runtime_error("Unknown facility category");
 }
 
-FacilityCategory facilityCategoryFromString(const std::string& value) {
+FacilityCategory facilityCategoryFromString(std::string_view value) {
     if (value == "machine") {
         return FacilityCategory::Machine;
     }
@@ -166,7 +165,7 @@ FacilityCategory facilityCategoryFromString(const std::string& value) {
         return FacilityCategory::Storage_out;
     }
 
-    throw std::runtime_error("Unsupported facility category string: " + value);
+    throw std::runtime_error("Unsupported facility category string: " + std::string(value));
 }
 
 std::string toString(FacilityRole role) {
@@ -184,7 +183,7 @@ std::string toString(FacilityRole role) {
     throw std::runtime_error("Unknown facility role");
 }
 
-FacilityRole facilityRoleFromString(const std::string& value) {
+FacilityRole facilityRoleFromString(std::string_view value) {
     if (value == "generic") {
         return FacilityRole::Generic;
     }
@@ -210,7 +209,7 @@ FacilityRole facilityRoleFromString(const std::string& value) {
         return FacilityRole::Servo;
     }
 
-    throw std::runtime_error("Unsupported facility role string: " + value);
+    throw std::runtime_error("Unsupported facility role string: " + std::string(value));
 }
 
 std::string toString(Rotation rotation) {
@@ -224,7 +223,7 @@ std::string toString(Rotation rotation) {
     throw std::runtime_error("Unknown rotation");
 }
 
-Rotation rotationFromString(const std::string& value) {
+Rotation rotationFromString(std::string_view value) {
     if (value == "deg0") {
         return Rotation::Deg_0;
     }
@@ -238,7 +237,7 @@ Rotation rotationFromString(const std::string& value) {
         return Rotation::Deg_270;
     }
 
-    throw std::runtime_error("Unsupported rotation string: " + value);
+    throw std::runtime_error("Unsupported rotation string: " + std::string(value));
 }
 
 std::string toString(PortDirection portDirection) {
@@ -250,7 +249,7 @@ std::string toString(PortDirection portDirection) {
     throw std::runtime_error("Unknown port direction");
 }
 
-PortDirection portDirectionFromString(const std::string& value) {
+PortDirection portDirectionFromString(std::string_view value) {
     if (value == "input") {
         return PortDirection::Input;
     }
@@ -258,7 +257,7 @@ PortDirection portDirectionFromString(const std::string& value) {
         return PortDirection::Output;
     }
 
-    throw std::runtime_error("Unsupported port direction string: " + value);
+    throw std::runtime_error("Unsupported port direction string: " + std::string(value));
 }
 
 std::string toString(StorageMode storageMode) {
@@ -270,7 +269,7 @@ std::string toString(StorageMode storageMode) {
     throw std::runtime_error("Unknown storage mode");
 }
 
-StorageMode storageModeFromString(const std::string& value) {
+StorageMode storageModeFromString(std::string_view value) {
     if (value == "conveyor") {
         return StorageMode::Conveyor;
     }
@@ -278,7 +277,7 @@ StorageMode storageModeFromString(const std::string& value) {
         return StorageMode::Wireless;
     }
 
-    throw std::runtime_error("Unsupported storage mode string: " + value);
+    throw std::runtime_error("Unsupported storage mode string: " + std::string(value));
 }
 
 std::string toString(PowerFacilityType powerFacilityType) {
@@ -291,7 +290,7 @@ std::string toString(PowerFacilityType powerFacilityType) {
     throw std::runtime_error("Unknown power facility type");
 }
 
-PowerFacilityType powerFacilityTypeFromString(const std::string& value) {
+PowerFacilityType powerFacilityTypeFromString(std::string_view value) {
     if (value == "none") {
         return PowerFacilityType::None;
     }
@@ -302,7 +301,7 @@ PowerFacilityType powerFacilityTypeFromString(const std::string& value) {
         return PowerFacilityType::Repeater;
     }
 
-    throw std::runtime_error("Unsupported power facility type string: " + value);
+    throw std::runtime_error("Unsupported power facility type string: " + std::string(value));
 }
 
 GridSize rotateFootprint(GridSize footprint, Rotation rotation) {
@@ -398,11 +397,9 @@ bool hasInventoryCapacity(const FacilityDefinition& definition) {
 }
 
 bool hasAnyStoredItems(const FacilityInstance& instance) {
-    return std::any_of(
-        instance.inventorySlots.begin(),
-        instance.inventorySlots.end(),
-        [] (const InventorySlot& inventorySlot) { return inventorySlot.count > 0; }
-    );
+    return std::ranges::any_of(instance.inventorySlots, [] (const InventorySlot& inventorySlot) {
+        return inventorySlot.count > 0;
+    });
 }
 
 FacilityRole defaultFacilityRole(FacilityCategory category) {
@@ -449,7 +446,7 @@ std::vector<GridPoint> getOrderedInputDirections(const FacilityDefinition& defin
     }
 
     if (definition.category == FacilityCategory::Splitter) {
-        directions.assign(std::begin(Splitter_Input_Order), std::end(Splitter_Input_Order));
+        directions.assign(Splitter_Input_Order.begin(), Splitter_Input_Order.end());
         for (GridPoint& direction : directions) {
             direction = rotateDirection(direction, rotation);
         }
@@ -470,7 +467,7 @@ std::vector<GridPoint> getOrderedOutputDirections(const FacilityDefinition& defi
     }
 
     if (definition.category == FacilityCategory::Splitter || definition.maxOutputs > 1) {
-        directions.assign(std::begin(Splitter_Output_Order), std::end(Splitter_Output_Order));
+        directions.assign(Splitter_Output_Order.begin(), Splitter_Output_Order.end());
         for (GridPoint& direction : directions) {
             direction = rotateDirection(direction, rotation);
         }
