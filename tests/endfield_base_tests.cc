@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <string_view>
 
 #include <nlohmann/json.hpp>
 
@@ -15,8 +16,8 @@ using namespace endfield_base;
 
 namespace {
 auto makeDefinition(
-    const std::string& id,
-    const std::string& displayName,
+    std::string_view id,
+    std::string_view displayName,
     FacilityCategory category,
     GridSize footprint
 ) -> FacilityDefinition {
@@ -31,7 +32,7 @@ auto makeDefinition(
     return definition;
 }
 
-void writeFile(const std::filesystem::path& path, const std::string& content) {
+void writeFile(const std::filesystem::path& path, std::string_view content) {
     std::filesystem::create_directories(path.parent_path());
     std::ofstream output(path);
     output << content;

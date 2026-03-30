@@ -40,15 +40,19 @@ namespace {
         }
     };
 
-    constexpr std::array<GridPoint, 3> Splitter_Output_Order{{
-        {0, 1},
-        {1, 0},
-        {0, -1},
-    }};
+    constexpr std::array<GridPoint, 3> Splitter_Output_Order{
+        {
+            {0, 1},
+            {1, 0},
+            {0, -1},
+        }
+    };
 
-    constexpr std::array<GridPoint, 1> Splitter_Input_Order{{
-        {-1, 0},
-    }};
+    constexpr std::array<GridPoint, 1> Splitter_Input_Order{
+        {
+            {-1, 0},
+        }
+    };
 
     std::vector<GridPoint> filterPortsByDirection(
         const FacilityDefinition& definition,
@@ -85,11 +89,12 @@ void FacilityCatalog::addDefinition(FacilityDefinition definition) {
 }
 
 const FacilityDefinition* FacilityCatalog::findDefinition(std::string_view id) const {
-    if (!indexById_.contains(std::string(id))) {
+    const auto it = indexById_.find(id);
+    if (it == indexById_.end()) {
         return nullptr;
     }
 
-    return &definitions_.at(indexById_.at(std::string(id)));
+    return &definitions_.at(it->second);
 }
 
 const std::vector<FacilityDefinition>& FacilityCatalog::getDefinitions() const {
@@ -501,10 +506,10 @@ std::unique_ptr<ProductionFacilityInterface> createProductionFacilityInterface(c
 
 double defaultTraversalCapacity(const FacilityDefinition& definition) {
     return std::max({
-            definition.baseThroughput,
-            definition.productionRate,
-            definition.consumptionRate,
-            1.0,
-        });
+        definition.baseThroughput,
+        definition.productionRate,
+        definition.consumptionRate,
+        1.0,
+    });
 }
 }  // namespace endfield_base

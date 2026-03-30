@@ -6,12 +6,14 @@
 
 namespace endfield_base {
 namespace {
-    constexpr std::array<GridPoint, 4> Directions{{
-        {1, 0},
-        {-1, 0},
-        {0, 1},
-        {0, -1},
-    }};
+    constexpr std::array<GridPoint, 4> Directions{
+        {
+            {1, 0},
+            {-1, 0},
+            {0, 1},
+            {0, -1},
+        }
+    };
 
     bool isHorizontalRotation(Rotation rotation) {
         return rotation == Rotation::Deg_0 || rotation == Rotation::Deg_180;
@@ -66,18 +68,18 @@ std::vector<LayeredGridPoint> LogisticsGraph::getNeighbors(const LayeredGridPoin
 
     for (const GridPoint direction : Directions) {
         const LayeredGridPoint sameLayer{
-                {point.position.x + direction.x, point.position.y + direction.y},
-                point.layer,
-            };
+            {point.position.x + direction.x, point.position.y + direction.y},
+            point.layer,
+        };
         if (const LogisticsCell* sameLayerCell = findCell(sameLayer);
             sameLayerCell != nullptr && sameLayerCell->traversable && canTraverseBetween(point, sameLayer)) {
             neighbors.push_back(sameLayer);
         }
 
         const LayeredGridPoint otherLayer{
-                {point.position.x + direction.x, point.position.y + direction.y},
-                point.layer == LogisticsLayer::Ground ? LogisticsLayer::Bridge : LogisticsLayer::Ground,
-            };
+            {point.position.x + direction.x, point.position.y + direction.y},
+            point.layer == LogisticsLayer::Ground ? LogisticsLayer::Bridge : LogisticsLayer::Ground,
+        };
         if (const LogisticsCell* otherLayerCell = findCell(otherLayer);
             otherLayerCell != nullptr && otherLayerCell->traversable && canTraverseBetween(point, otherLayer)) {
             neighbors.push_back(otherLayer);
@@ -104,9 +106,9 @@ std::vector<LayeredGridPoint> LogisticsGraph::getEndpointsForInstance(int instan
 
     for (const GridPoint& cell : occupiedCells) {
         const LayeredGridPoint point{
-                cell,
-                supportsBridgeLayer(definition->category) ? LogisticsLayer::Bridge : LogisticsLayer::Ground,
-            };
+            cell,
+            supportsBridgeLayer(definition->category) ? LogisticsLayer::Bridge : LogisticsLayer::Ground,
+        };
         if (const LogisticsCell* logisticsCell = findCell(point);
             logisticsCell != nullptr && logisticsCell->traversable) {
             endpoints.push_back(point);
@@ -177,9 +179,9 @@ bool LogisticsGraph::canTraverseBetween(const LayeredGridPoint& from, const Laye
     }
 
     const GridPoint direction{
-            to.position.x - from.position.x,
-            to.position.y - from.position.y,
-        };
+        to.position.x - from.position.x,
+        to.position.y - from.position.y,
+    };
 
     if (from.layer == to.layer) {
         if (from.layer == LogisticsLayer::Ground) {
@@ -213,9 +215,9 @@ auto LogisticsGraph::countSameLayerConnections(
     for (const GridPoint& occupiedCell : occupiedCells) {
         for (const GridPoint direction : Directions) {
             const LayeredGridPoint neighborPoint{
-                    {occupiedCell.x + direction.x, occupiedCell.y + direction.y},
-                    layer,
-                };
+                {occupiedCell.x + direction.x, occupiedCell.y + direction.y},
+                layer,
+            };
             const LogisticsCell* neighborCell = findCell(neighborPoint);
             if (neighborCell == nullptr || !neighborCell->traversable) {
                 continue;
@@ -239,9 +241,9 @@ auto LogisticsGraph::countConnectedDirections(
     int connectionCount = 0;
     for (const GridPoint& direction : directions) {
         const LayeredGridPoint neighborPoint{
-                {instance.position.x + direction.x, instance.position.y + direction.y},
-                layer,
-            };
+            {instance.position.x + direction.x, instance.position.y + direction.y},
+            layer,
+        };
         const LogisticsCell* neighborCell = findCell(neighborPoint);
         if (neighborCell == nullptr || !neighborCell->traversable) {
             continue;

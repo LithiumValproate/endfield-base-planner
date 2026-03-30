@@ -8,6 +8,24 @@
 #include <vector>
 
 namespace endfield_base {
+struct TransparentStringHash {
+    using is_transparent = void;
+
+    [[nodiscard]] auto operator()(std::string_view value) const noexcept
+        -> std::size_t {
+        return std::hash<std::string_view>{}(value);
+    }
+};
+
+struct TransparentStringEqual {
+    using is_transparent = void;
+
+    [[nodiscard]] auto operator()(std::string_view left, std::string_view right) const noexcept
+        -> bool {
+        return left == right;
+    }
+};
+
 enum class FacilityCategory {
     Machine,
     Conveyor,
@@ -155,7 +173,7 @@ public:
 
 private:
     std::vector<FacilityDefinition> definitions_;
-    std::unordered_map<std::string, std::size_t> indexById_;
+    std::unordered_map<std::string, std::size_t, TransparentStringHash, TransparentStringEqual> indexById_;
 };
 
 [[nodiscard]] auto toString(FacilityCategory category)

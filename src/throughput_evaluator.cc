@@ -32,8 +32,8 @@ namespace {
         const SimulationState& state,
         int startInstanceId,
         const std::vector<int>& targets
-    ) -> std::optional<std::pair<int, PathResult>> {
-        std::optional<std::pair<int, PathResult>> bestPath;
+    ) -> std::optional<ResolvedPath> {
+        std::optional<ResolvedPath> bestPath;
 
         for (const int targetInstanceId : targets) {
             PathResult path = PathFinder::findPath(state, {startInstanceId, targetInstanceId});
@@ -41,8 +41,11 @@ namespace {
                 continue;
             }
 
-            if (!bestPath.has_value() || path.length < bestPath->second.length) {
-                bestPath = std::make_pair(targetInstanceId, std::move(path));
+            if (!bestPath.has_value() || path.length < bestPath->path.length) {
+                bestPath = ResolvedPath{
+                    targetInstanceId,
+                    std::move(path),
+                };
             }
         }
 
@@ -101,61 +104,63 @@ ThroughputReport ThroughputEvaluator::evaluateThroughput(const SimulationState& 
 
         const bool active = facilityResult.powered || !requiresExternalPower(*definition);
         const double localLimit = std::max({
-                definition->baseThroughput,
-                definition->productionRate,
-                definition->consumptionRate,
-                0.0,
-            });
+            definition->baseThroughput,
+            definition->productionRate,
+            definition->consumptionRate,
+            0.0,
+        });
 
         if (isProductionFacility(*definition) || isThermalMachine(*definition)) {
             double outputRate = 0.0;
             double inputRate = 0.0;
 
             if (active && definition->productionRate > 0.0) {
-                if (const auto outputPath = resolveBestPath(state, instance.instanceId, endpoints.outputInstanceIds); outputPath.has_value()) {
+                if (const auto outputPath = resolveBestPath(state, instance.instanceId, endpoints.outputInstanceIds);
+                    outputPath.has_value()) {
                     const double transportLimit =
-                        outputPath->second.bottleneckThroughput / pathPenaltyMultiplier(outputPath->second.length);
+                        outputPath->path.bottleneckThroughput / pathPenaltyMultiplier(outputPath->path.length);
                     outputRate = std::min({definition->productionRate, definition->baseThroughput, transportLimit});
-                    facilityResult.pathLengthToOutput = outputPath->second.length;
+                    facilityResult.pathLengthToOutput = outputPath->path.length;
                     facilityResult.bottleneckInstanceId =
-                        outputPath->second.traversedInstanceIds.empty()
+                        outputPath->path.traversedInstanceIds.empty()
                             ? 0
-                            : outputPath->second.traversedInstanceIds.front();
+                            : outputPath->path.traversedInstanceIds.front();
                     facilityResult.bottleneckReason = "output_path";
                     report.networkResults.push_back({
-                            instance.instanceId,
-                            outputPath->first,
-                            outputPath->second.length,
-                            outputPath->second.bottleneckThroughput,
-                            "output",
-                        });
-                    accumulatePathUsage(pathUsageByInstanceId, outputPath->second, outputRate);
+                        instance.instanceId,
+                        outputPath->targetInstanceId,
+                        outputPath->path.length,
+                        outputPath->path.bottleneckThroughput,
+                        "output",
+                    });
+                    accumulatePathUsage(pathUsageByInstanceId, outputPath->path, outputRate);
                 } else {
                     facilityResult.bottleneckReason = "missing_output_path";
                 }
             }
 
             if (active && definition->consumptionRate > 0.0) {
-                if (const auto inputPath = resolveBestPath(state, instance.instanceId, endpoints.inputInstanceIds); inputPath.has_value()) {
+                if (const auto inputPath = resolveBestPath(state, instance.instanceId, endpoints.inputInstanceIds);
+                    inputPath.has_value()) {
                     const double transportLimit =
-                        inputPath->second.bottleneckThroughput / pathPenaltyMultiplier(inputPath->second.length);
+                        inputPath->path.bottleneckThroughput / pathPenaltyMultiplier(inputPath->path.length);
                     inputRate = std::min({definition->consumptionRate, definition->baseThroughput, transportLimit});
-                    facilityResult.pathLengthFromInput = inputPath->second.length;
+                    facilityResult.pathLengthFromInput = inputPath->path.length;
                     if (facilityResult.bottleneckReason.empty()) {
                         facilityResult.bottleneckInstanceId =
-                            inputPath->second.traversedInstanceIds.empty()
+                            inputPath->path.traversedInstanceIds.empty()
                                 ? 0
-                                : inputPath->second.traversedInstanceIds.front();
+                                : inputPath->path.traversedInstanceIds.front();
                         facilityResult.bottleneckReason = "input_path";
                     }
                     report.networkResults.push_back({
-                            inputPath->first,
-                            instance.instanceId,
-                            inputPath->second.length,
-                            inputPath->second.bottleneckThroughput,
-                            "input",
-                        });
-                    accumulatePathUsage(pathUsageByInstanceId, inputPath->second, inputRate);
+                        inputPath->targetInstanceId,
+                        instance.instanceId,
+                        inputPath->path.length,
+                        inputPath->path.bottleneckThroughput,
+                        "input",
+                    });
+                    accumulatePathUsage(pathUsageByInstanceId, inputPath->path, inputRate);
                 } else if (facilityResult.bottleneckReason.empty()) {
                     facilityResult.bottleneckReason = "missing_input_path";
                 }

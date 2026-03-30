@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <stdexcept>
+#include <string_view>
 
 #include <nlohmann/json.hpp>
 
@@ -18,7 +19,7 @@ namespace {
         return json;
     }
 
-    std::filesystem::path resolveCatalogPath(const std::filesystem::path& mapPath, const std::string& catalogPath) {
+    std::filesystem::path resolveCatalogPath(const std::filesystem::path& mapPath, std::string_view catalogPath) {
         const std::filesystem::path candidate(catalogPath);
         if (candidate.is_absolute()) {
             return candidate;

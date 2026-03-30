@@ -30,6 +30,11 @@ struct NetworkPathResult {
     std::string pathRole;
 };
 
+struct ResolvedPath {
+    int targetInstanceId = 0;
+    PathResult path;
+};
+
 struct ThroughputReport {
     double totalThroughput = 0.0;
     double totalProduction = 0.0;

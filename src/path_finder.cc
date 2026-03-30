@@ -78,10 +78,10 @@ PathResult PathFinder::findPath(const SimulationState& state, const PathRequest&
         }
 
         result.steps.push_back({
-                cursor.position,
-                cursor.layer == LogisticsLayer::Bridge,
-                cell->ownerInstanceId,
-            });
+            cursor.position,
+            cursor.layer == LogisticsLayer::Bridge,
+            cell->ownerInstanceId,
+        });
         result.bottleneckThroughput = std::min(result.bottleneckThroughput, cell->capacity);
 
         if (!parents.contains(cursor)) {
@@ -100,7 +100,8 @@ PathResult PathFinder::findPath(const SimulationState& state, const PathRequest&
         if (!step.ownerInstanceId.has_value()) {
             continue;
         }
-        if (std::ranges::find(result.traversedInstanceIds, *step.ownerInstanceId) == result.traversedInstanceIds.end()) {
+        if (std::ranges::find(result.traversedInstanceIds, *step.ownerInstanceId) == result.traversedInstanceIds.
+            end()) {
             result.traversedInstanceIds.push_back(*step.ownerInstanceId);
         }
     }

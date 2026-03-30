@@ -35,9 +35,9 @@ Color facilityColor(FacilityCategory category) {
 
 GridPoint screenToGrid(Vector2 position) {
     return {
-            static_cast<int>(position.x) / Cell_Size,
-            static_cast<int>(position.y) / Cell_Size,
-        };
+        static_cast<int>(position.x) / Cell_Size,
+        static_cast<int>(position.y) / Cell_Size,
+    };
 }
 
 std::optional<int> facilityAtPoint(const SimulationState& state, const GridPoint& point) {
@@ -67,11 +67,11 @@ void drawFacility(const SimulationState& state, const FacilityInstance& instance
 
     const GridSize footprint = rotateFootprint(definition->footprint, instance.rotation);
     const Rectangle rectangle{
-            static_cast<float>(instance.position.x * Cell_Size),
-            static_cast<float>(instance.position.y * Cell_Size),
-            static_cast<float>(footprint.width * Cell_Size),
-            static_cast<float>(footprint.height * Cell_Size),
-        };
+        static_cast<float>(instance.position.x * Cell_Size),
+        static_cast<float>(instance.position.y * Cell_Size),
+        static_cast<float>(footprint.width * Cell_Size),
+        static_cast<float>(footprint.height * Cell_Size),
+    };
     DrawRectangleRec(rectangle, facilityColor(definition->category));
     DrawRectangleLinesEx(rectangle, selected ? 4.0F : 2.0F, selected ? BLACK : DARKGRAY);
     DrawText(
