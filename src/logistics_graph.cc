@@ -202,10 +202,8 @@ bool LogisticsGraph::canTraverseBetween(const LayeredGridPoint& from, const Laye
     return false;
 }
 
-auto LogisticsGraph::countSameLayerConnections(
-    const FacilityInstance& instance,
-    const FacilityDefinition& definition
-) const -> int {
+int LogisticsGraph::countSameLayerConnections(const FacilityInstance& instance,
+                                              const FacilityDefinition& definition) const {
     const LogisticsLayer layer = supportsBridgeLayer(definition.category)
                                      ? LogisticsLayer::Bridge
                                      : LogisticsLayer::Ground;
@@ -233,11 +231,9 @@ auto LogisticsGraph::countSameLayerConnections(
     return connectionCount;
 }
 
-auto LogisticsGraph::countConnectedDirections(
-    const FacilityInstance& instance,
-    LogisticsLayer layer,
-    const std::vector<GridPoint>& directions
-) const -> int {
+int LogisticsGraph::countConnectedDirections(const FacilityInstance& instance,
+                                             LogisticsLayer layer,
+                                             const std::vector<GridPoint>& directions) const {
     int connectionCount = 0;
     for (const GridPoint& direction : directions) {
         const LayeredGridPoint neighborPoint{
@@ -258,10 +254,8 @@ auto LogisticsGraph::countConnectedDirections(
     return connectionCount;
 }
 
-auto LogisticsGraph::applySpecialFacilityCapacity(
-    const FacilityInstance& instance,
-    const FacilityDefinition& definition
-) -> void {
+void LogisticsGraph::applySpecialFacilityCapacity(const FacilityInstance& instance,
+                                                  const FacilityDefinition& definition) {
     if (definition.category != FacilityCategory::Splitter
         && definition.category != FacilityCategory::Merger
         && !(isProductionFacility(definition) && definition.maxOutputs > 1)) {
@@ -306,11 +300,9 @@ auto LogisticsGraph::applySpecialFacilityCapacity(
     }
 }
 
-auto LogisticsGraph::addInstanceCells(
-    const FacilityInstance& instance,
-    const FacilityDefinition& definition,
-    const GridMap& grid
-) -> void {
+void LogisticsGraph::addInstanceCells(const FacilityInstance& instance,
+                                      const FacilityDefinition& definition,
+                                      const GridMap& grid) {
     if (!isLogisticsFacility(definition.category) && !isEndpointDefinition(definition)) {
         return;
     }

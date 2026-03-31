@@ -6,11 +6,9 @@
 
 namespace endfield_base {
 namespace {
-    auto isCoveredByAnyPowerPole(
-        const SimulationState& state,
-        const FacilityInstance& target,
-        const FacilityDefinition& targetDefinition
-    ) -> bool {
+    bool isCoveredByAnyPowerPole(const SimulationState& state,
+                                 const FacilityInstance& target,
+                                 const FacilityDefinition& targetDefinition) {
         const auto targetCells = state.grid.getOccupiedCells(targetDefinition, target);
 
         for (const FacilityInstance& candidate : state.grid.getFacilities()) {

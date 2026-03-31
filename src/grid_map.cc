@@ -63,10 +63,8 @@ const CellOccupancy* GridMap::getCell(int x, int y) const {
     return &cells_.at(indexForCell(x, y));
 }
 
-auto GridMap::getOccupiedCells(
-    const FacilityDefinition& definition,
-    const FacilityInstance& instance
-) const -> std::vector<GridPoint> {
+std::vector<GridPoint> GridMap::getOccupiedCells(const FacilityDefinition& definition,
+                                                 const FacilityInstance& instance) const {
     const GridSize footprint = rotateFootprint(definition.footprint, instance.rotation);
     std::vector<GridPoint> occupiedCells;
     occupiedCells.reserve(static_cast<std::size_t>(footprint.width * footprint.height));
@@ -100,12 +98,10 @@ std::vector<int> GridMap::getFacilityIdsAt(const GridPoint& cell) const {
     return ids;
 }
 
-auto GridMap::canPlaceFacility(
-    const FacilityDefinition& definition,
-    const GridPoint& origin,
-    Rotation rotation,
-    std::string* reason
-) const -> bool {
+bool GridMap::canPlaceFacility(const FacilityDefinition& definition,
+                               const GridPoint& origin,
+                               Rotation rotation,
+                               std::string* reason) const {
     const GridSize footprint = rotateFootprint(definition.footprint, rotation);
     if (origin.x < 0 || origin.y < 0 || origin.x + footprint.width > width_ || origin.y + footprint.height >
         height_) {
@@ -166,14 +162,12 @@ auto GridMap::canPlaceFacility(
     return true;
 }
 
-auto GridMap::placeFacility(
-    const FacilityDefinition& definition,
-    std::string_view definitionId,
-    const GridPoint& origin,
-    Rotation rotation,
-    std::optional<int> forcedInstanceId,
-    std::string* reason
-) -> int {
+int GridMap::placeFacility(const FacilityDefinition& definition,
+                           std::string_view definitionId,
+                           const GridPoint& origin,
+                           Rotation rotation,
+                           std::optional<int> forcedInstanceId,
+                           std::string* reason) {
     if (!canPlaceFacility(definition, origin, rotation, reason)) {
         return 0;
     }

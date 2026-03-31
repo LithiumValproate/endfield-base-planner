@@ -26,3 +26,5 @@ Makefile
 *.exe
 *.out
 
+# Codex File
+AGENTS.md

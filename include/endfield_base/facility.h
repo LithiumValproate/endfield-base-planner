@@ -296,8 +296,7 @@ private:
 [[nodiscard]] constexpr auto usesWirelessStorage(
     const FacilityDefinition& definition,
     const FacilityInstance& instance
-) noexcept
-    -> bool {
+) noexcept -> bool {
     return isChestFacility(definition)
            && definition.supportsWirelessStorage
            && instance.storageMode == StorageMode::Wireless;

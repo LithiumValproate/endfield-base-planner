@@ -54,11 +54,9 @@ namespace {
         }
     };
 
-    std::vector<GridPoint> filterPortsByDirection(
-        const FacilityDefinition& definition,
-        PortDirection filterDirection,
-        Rotation rotation
-    ) {
+    std::vector<GridPoint> filterPortsByDirection(const FacilityDefinition& definition,
+                                                  PortDirection filterDirection,
+                                                  Rotation rotation) {
         std::vector<GridPoint> directions;
         for (const auto& [direction, portDirection] : definition.ioPorts) {
             if (portDirection != filterDirection) {

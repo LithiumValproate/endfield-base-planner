@@ -28,11 +28,9 @@ namespace {
         return 1.0 + 0.25 * static_cast<double>(pathLength - 1);
     }
 
-    auto resolveBestPath(
-        const SimulationState& state,
-        int startInstanceId,
-        const std::vector<int>& targets
-    ) -> std::optional<ResolvedPath> {
+    std::optional<ResolvedPath> resolveBestPath(const SimulationState& state,
+                                                int startInstanceId,
+                                                const std::vector<int>& targets) {
         std::optional<ResolvedPath> bestPath;
 
         for (const int targetInstanceId : targets) {
@@ -52,11 +50,9 @@ namespace {
         return bestPath;
     }
 
-    auto accumulatePathUsage(
-        std::unordered_map<int, double>& usageByInstanceId,
-        const PathResult& path,
-        double throughput
-    ) -> void {
+    void accumulatePathUsage(std::unordered_map<int, double>& usageByInstanceId,
+                             const PathResult& path,
+                             double throughput) {
         for (const int instanceId : path.traversedInstanceIds) {
             usageByInstanceId[instanceId] += throughput;
         }
