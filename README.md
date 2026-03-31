@@ -55,6 +55,9 @@ More specifically, the current priority areas are:
 - `tests`: validation tests
 - `data`: sample maps and result files
 - `third_party`: bundled third-party sources when needed
+- `docs`: additional project documentation
+
+See [docs/project_guide.md](docs/project_guide.md) for a more detailed architecture and data-model overview.
 
 ## Build
 
