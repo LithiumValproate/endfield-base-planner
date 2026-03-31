@@ -7,6 +7,7 @@
 #include "endfield_base/grid_map.h"
 
 namespace endfield_base {
+// Owns all mutable state required to analyze or edit one map.
 struct SimulationState {
     FacilityCatalog catalog;
     GridMap grid;

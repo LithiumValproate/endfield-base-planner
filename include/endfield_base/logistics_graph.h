@@ -7,11 +7,13 @@
 #include "endfield_base/simulation_state.h"
 
 namespace endfield_base {
+// Identifies which traversal layer a logistics cell belongs to.
 enum class LogisticsLayer {
     Ground,
     Bridge,
 };
 
+// Identifies one traversable point in the layered logistics graph.
 struct LayeredGridPoint {
     GridPoint position;
     LogisticsLayer layer = LogisticsLayer::Ground;
@@ -19,20 +21,26 @@ struct LayeredGridPoint {
     bool operator==(const LayeredGridPoint& other) const = default;
 };
 
+// Stores traversal data for one cell in one logistics layer.
 struct LogisticsCell {
     bool traversable = false;
     double capacity = 0.0;
     std::optional<int> ownerInstanceId;
 };
 
+// Materializes a layered traversal graph derived from the current map state.
 class LogisticsGraph {
 public:
+    // Builds traversal cells and endpoints from the current simulation state.
     explicit LogisticsGraph(const SimulationState& state);
 
+    // Looks up one cell in the layered graph.
     [[nodiscard]] auto findCell(const LayeredGridPoint& point) const
         -> const LogisticsCell*;
+    // Returns all graph neighbors reachable from the given point.
     [[nodiscard]] auto getNeighbors(const LayeredGridPoint& point) const
         -> std::vector<LayeredGridPoint>;
+    // Returns all graph endpoints associated with one facility instance.
     [[nodiscard]] auto getEndpointsForInstance(int instanceId) const
         -> std::vector<LayeredGridPoint>;
 

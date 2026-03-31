@@ -8,6 +8,7 @@
 #include "endfield_base/simulation_state.h"
 
 namespace endfield_base {
+// Stores throughput metrics for one facility instance.
 struct FacilityThroughputResult {
     int instanceId = 0;
     std::string definitionId;
@@ -22,6 +23,7 @@ struct FacilityThroughputResult {
     std::string bottleneckReason;
 };
 
+// Stores throughput metrics for one resolved network path.
 struct NetworkPathResult {
     int fromInstanceId = 0;
     int toInstanceId = 0;
@@ -30,11 +32,13 @@ struct NetworkPathResult {
     std::string pathRole;
 };
 
+// Couples a resolved path with the target instance it reaches.
 struct ResolvedPath {
     int targetInstanceId = 0;
     PathResult path;
 };
 
+// Aggregates layout-wide throughput totals and detailed path results.
 struct ThroughputReport {
     double totalThroughput = 0.0;
     double totalProduction = 0.0;
@@ -45,8 +49,10 @@ struct ThroughputReport {
     std::vector<NetworkPathResult> networkResults;
 };
 
+// Evaluates stable-state throughput for all facilities and key connections.
 class ThroughputEvaluator {
 public:
+    // Runs the throughput analysis for the current simulation state.
     [[nodiscard]] static auto evaluateThroughput(const SimulationState& state)
         -> ThroughputReport;
 };

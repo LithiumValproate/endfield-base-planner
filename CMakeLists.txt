@@ -50,7 +50,7 @@ endif()
 if(BUILD_TESTING)
     add_executable(endfield_base_tests tests/endfield_base_tests.cc)
     target_include_directories(endfield_base_tests PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/third_party
+            ${CMAKE_CURRENT_SOURCE_DIR}/vendor
     )
     target_link_libraries(endfield_base_tests PRIVATE endfield_base_core)
     add_test(NAME endfield_base_tests COMMAND endfield_base_tests)
