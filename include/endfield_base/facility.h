@@ -90,7 +90,7 @@ struct GridPoint {
     int x = 0;
     int y = 0;
 
-    auto operator==(const GridPoint& other) const -> bool = default;
+    bool operator==(const GridPoint& other) const = default;
 };
 
 // Stores the unrotated width and height of a facility footprint.
@@ -98,7 +98,7 @@ struct GridSize {
     int width = 1;
     int height = 1;
 
-    auto operator==(const GridSize& other) const -> bool = default;
+    bool operator==(const GridSize& other) const= default;
 };
 
 // Defines one directional IO port relative to the facility origin.
