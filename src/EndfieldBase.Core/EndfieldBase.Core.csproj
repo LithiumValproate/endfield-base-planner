@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>EndfieldBase.Core</AssemblyName>
+        <RootNamespace>EndfieldBase.Core</RootNamespace>
+        <TargetFramework>net10.0</TargetFramework>
+    </PropertyGroup>
+</Project>

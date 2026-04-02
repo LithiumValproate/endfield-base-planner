@@ -1,0 +1,13 @@
+<Project>
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <Deterministic>true</Deterministic>
+        <NuGetAudit>false</NuGetAudit>
+        <RestoreIgnoreFailedSources>true</RestoreIgnoreFailedSources>
+    </PropertyGroup>
+</Project>
