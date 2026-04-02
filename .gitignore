@@ -1,0 +1,20 @@
+# Build outputs
+bin/
+obj/
+TestResults/
+artifacts/
+
+# IDE
+.idea/
+.vs/
+.vscode/
+
+# Rider user files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# OS
+.DS_Store
