@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>EndfieldBase.App</AssemblyName>
+        <RootNamespace>EndfieldBase.App</RootNamespace>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\EndfieldBase.Core\EndfieldBase.Core.csproj"/>
+    </ItemGroup>
+</Project>
